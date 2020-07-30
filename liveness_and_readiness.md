@@ -211,7 +211,9 @@ graphical interpretation: ![liveness and readiness](../img/livereadiness.svg).
 
 We can check the status of the pods like this:
 
-`kubectl describe pod liveness-exec`
+``` bash 
+kubectl describe pod liveness-exec
+```
 
 and look for the `Status` of `Ready` in the `Conditions:` section.
 You should see something like:
