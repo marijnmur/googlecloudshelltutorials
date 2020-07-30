@@ -65,7 +65,7 @@ that they need. On the other hand limiting the maximum resources they can use.
 If all 4 are combined and configured appropriately they provide the basic
 building blocks of controlling how to run an optimized Kubernetes cluster.
 
-### Limits and Requests configuration
+## Limits and Requests configuration
 
 There are three resources that can be set for both limits and requests:
 

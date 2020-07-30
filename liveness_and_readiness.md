@@ -146,7 +146,7 @@ latency is increased a little. This example is only to show that you need to
 take care of what you set as the check for the readiness probe to handle. Please
 have a look at the original example, which was copied largely, [here](https://blog.colinbreck.com/kubernetes-liveness-and-readiness-probes-how-to-avoid-shooting-yourself-in-the-foot/).
 
-### Hands on practical examples
+## Hands on practical examples
 
 Consider this simple container running busybox:
 
