@@ -15,7 +15,7 @@ Because Kubernetes has so many interlinked processes that need to work together
 and need to know from each other if they are available, health checks for
 liveness and readiness are built-in features. The kubelet on the master node
 sends out probes to every registered pod and checks if it is still there via
-liveness and readiness probes. Let's take a better look at these two fearures.
+liveness and readiness probes. Let's take a better look at these two features.
 
 ## Liveness
 
@@ -58,7 +58,7 @@ There are a number of configuration variables that can be set for a probe from
 the Kubernetes [documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes):
 
 [Probes](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#probe-v1-core)
-have a number of fields that you can use to control more precisely the behavio r
+have a number of fields that you can use to control more precisely the behavior
 of liveness and readiness checks:
 
 - `initialDelaySeconds`: Number of seconds after the container has started
@@ -73,7 +73,7 @@ considered successful after having failed. Defaults to 1. Must be 1 for
 liveness. Minimum value is 1.
 - `failureThreshold`: When a probe fails, Kubernetes will try failureThreshold
 times before giving up. Giving up in case of liveness probe means restarting the
-container. In case of readiness probe the Pod will be marked Unready. Defaults
+container. In case of readiness probe the Pod will be marked unready. Defaults
 to 3. Minimum value is 1.
 
 [HTTP probes](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#httpgetaction-v1-core)

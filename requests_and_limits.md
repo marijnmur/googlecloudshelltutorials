@@ -19,7 +19,7 @@ requests from Kubernetes and gets guaranteed. Then we'll look into
 
 If you are looking at this document via the Google Cloud shell(GCP) Walkthrough
 you can follow along with the examples in a GCP project or spin up something
-like [minikube](https://kubernetes.io/docs/setup/learning-environment/minikube/)
+like [Minikube](https://kubernetes.io/docs/setup/learning-environment/minikube/)
 
 ## Requests
 
@@ -104,7 +104,7 @@ spec:
     args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1", "--cpu", "1"]
 ```
 
-The container runs the linux stress tool with setting in the allowed range.
+The container runs the Linux stress tool with setting in the allowed range.
 Check the pods resources to confirm it is running:
 
 ```bash
@@ -174,9 +174,10 @@ spec:
     args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1", "--cpu", "10000"]
 ```
 
-The `--cpu` argument of `stress` does not actually reflect the amount of cpu
+The `--cpu` argument of `stress` does not actually reflect the amount of CPU
 requested, but the mount of time a function is spawned that calculates the
-square root of a number. Thus a high number is required to actually violate the set cpu limit.
+square root of a number. Thus a high number is required to actually violate the
+set CPU limit.
 
 Checking the pod again with :
 
@@ -185,7 +186,7 @@ kubectl get pods
 ```
 
 will show again that the status is `OOMKilled`. Kubernetes does not have a
-separate status for cpu or memory limit violation. If either of those limits is
+separate status for CPU or memory limit violation. If either of those limits is
 reached, the pod will get killed via the `OOMKilled` mechanism.
 
 ## Some nice blog posts and tutorials
