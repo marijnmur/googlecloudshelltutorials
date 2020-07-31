@@ -1,9 +1,15 @@
 # Liveness and Readiness
 
+[![Open this project in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.png)](https://ssh.cloud.google.com/cloudshell/open?cloudshell_git_repo=https://github.com/marijnmur/googlecloudshelltutorials&cloudshell_tutorial=liveness_and_readiness.md)
+
 ## Introduction
 
-With Kubernetes managing pods restarting or moving them as it sees fit, we might
-want to have some way of actually checking and influencing when that happens. This is possible with health checks. In this training we will try to make you familiar with the fundamentals of health checking in Kubernetes. There are two basic checks; '[liveness](#liveness)', checking if our pod is alive and '[readiness](#readiness)', checking if the pod is ready to receive traffic.
+Kubernetes manages the restarting and moving of pods as it sees fit. In some
+situations we might want to have ways of checking and influencing when that
+happens. This is possible with health checks. In this training we will try to
+make you familiar with the fundamentals of health checking in Kubernetes. There
+are two basic checks; [liveness](#liveness), checking if our pod is alive and
+[readiness](#readiness), checking if the pod is ready to receive traffic.
 
 Because Kubernetes has so many interlinked processes that need to work together
 and need to know from each other if they are available, health checks for
@@ -46,7 +52,7 @@ Here the kubelet will try to connect to a specified TCP port. If the connection
 is successful the pod is healthy. If not it's unhealthy. For a step by step
 guide have a look [here](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-tcp-liveness-probe)
 
-### Configuration settings
+## Configuration settings
 
 There are a number of configuration variables that can be set for a probe from
 the Kubernetes [documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes):
@@ -211,7 +217,7 @@ graphical interpretation: ![liveness and readiness](../img/livereadiness.svg).
 
 We can check the status of the pods like this:
 
-``` bash 
+``` bash
 kubectl describe pod liveness-exec
 ```
 
@@ -257,4 +263,3 @@ in the foot](https://blog.colinbreck.com/kubernetes-liveness-and-readiness-probe
 - [Revisiting shooting yourself in the foot](https://blog.colinbreck.com/kubernetes-liveness-and-readiness-probes-revisited-how-to-avoid-shooting-yourself-in-the-other-foot/)
 
 - [Kubernetes Liveness and Readiness Probes: Looking for More Feet](https://blog.colinbreck.com/kubernetes-liveness-and-readiness-probes-looking-for-more-feet/)
-

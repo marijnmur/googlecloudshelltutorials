@@ -13,9 +13,13 @@ pods to run out of computing power or memory.
 This training is an attempt to provide some light into optimizing the settings
 we can provide to make sure we get the most out of our cluster resources.
 
- We will look into '[requests](#requests)', which define the resources a pod
+ We will look into [requests](#requests), which define the resources a pod
 requests from Kubernetes and gets guaranteed. Then we'll look into
-'[limits](#limits)' where we can limit the resources of a pod.
+[limits](#limits) where we can limit the resources of a pod.
+
+If you are looking at this document via the Google Cloud shell(GCP) Walkthrough
+you can follow along with the examples in a GCP project or spin up something
+like [minikube](https://kubernetes.io/docs/setup/learning-environment/minikube/)
 
 ## Requests
 
@@ -60,7 +64,7 @@ limit is set on a resource, the moment the limit is reached the pod will be
 killed. Again these limits can be set for Memory and CPU.
 
 Combining requests with limits provides easy to control boundaries and safe
-guards for containers. On the one hand guarantying they will get the resources
+guards for containers. On the one hand guaranteeing they will get the resources
 that they need. On the other hand limiting the maximum resources they can use.
 If all 4 are combined and configured appropriately they provide the basic
 building blocks of controlling how to run an optimized Kubernetes cluster.
@@ -77,39 +81,121 @@ kernel allocates blocks of memory that are much larger than the default page
 size. For more information see [here](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-types)
 
 The `requests` and `limits` are set in the `resources:` block in the
-`containers` specification of a Pod. See for example, copied from [here](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes)
-this:
+`containers` specification of a Pod. The following examples are inspired on
+[here](https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/).
 
 ``` bash
 apiVersion: v1
 kind: Pod
 metadata:
-  name: frontend
+  name: requests-limits-demo
 spec:
   containers:
-  - name: db
-    image: mysql
-    env:
-    - name: MYSQL_ROOT_PASSWORD
-      value: "password"
+  - name: requests-limits-demo
+    image: polinux/stress
     resources:
       requests:
-        memory: "64Mi"
-        cpu: "250m"
+        memory: "150Mi"
+        cpu: "200m"
       limits:
-        memory: "128Mi"
-        cpu: "500m"
-  - name: wp
-    image: wordpress
-    resources:
-      requests:
-        memory: "64Mi"
-        cpu: "250m"
-      limits:
-        memory: "128Mi"
-        cpu: "500m"
+        memory: "200Mi"
+        cpu: "400m"
+    command: ["stress"]
+    args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1", "--cpu", "1"]
 ```
+
+The container runs the linux stress tool with setting in the allowed range.
+Check the pods resources to confirm it is running:
+
+```bash
+kubectl describe pods memory-demo
+```
+
+or
+
+```bash
+kubectl top pods
+```
+
+## Too much Memory
+
+Now to put the limits into use change the stress command to use more resources
+than the limits. First change the memory usage to exceed the memory limit set.
+
+```bash
+apiVersion: v1
+kind: Pod
+metadata:
+  name: requests-limits-demo-too-much-memory
+spec:
+  containers:
+  - name: requests-limits-demo-too-much-memory
+    image: polinux/stress
+    resources:
+      requests:
+        memory: "150Mi"
+        cpu: "200m"
+      limits:
+        memory: "200Mi"
+        cpu: "400m"
+    command: ["stress"]
+    args: ["--vm", "1", "--vm-bytes", "250M", "--vm-hang", "1", "--cpu", "1"]
+```
+
+Look at what the pod is doing via:
+
+```bash
+kubectl get pods
+```
+
+The pod will get an `OOMKilled` status and will try to restart.
+
+## Too much CPU
+
+To simulate too much CPU usage adjust the settings to:
+
+```bash
+apiVersion: v1
+kind: Pod
+metadata:
+  name: requests-limits-demo-too-much-cpu
+spec:
+  containers:
+  - name: requests-limits-demo-too-much-cpu
+    image: polinux/stress
+    resources:
+      requests:
+        memory: "150Mi"
+        cpu: "200m"
+      limits:
+        memory: "200Mi"
+        cpu: "400m"
+    command: ["stress"]
+    args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1", "--cpu", "10000"]
+```
+
+The `--cpu` argument of `stress` does not actually reflect the amount of cpu
+requested, but the mount of time a function is spawned that calculates the
+square root of a number. Thus a high number is required to actually violate the set cpu limit.
+
+Checking the pod again with :
+
+```bash
+kubectl get pods
+```
+
+will show again that the status is `OOMKilled`. Kubernetes does not have a
+separate status for cpu or memory limit violation. If either of those limits is
+reached, the pod will get killed via the `OOMKilled` mechanism.
 
 ## Some nice blog posts and tutorials
 
 - [A Practical Guide to Setting Kubernetes Requests and Limits](http://blog.kubecost.com/blog/requests-and-limits/)
+
+- [Managing Resources for Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+
+- [Understanding Kubernetes limits and requests by example](https://sysdig.com/blog/kubernetes-limits-requests/)
+
+- [Assign CPU Resources to Containers and Pods](https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
+
+- [Assign Memory Resources to Containers and Pods](https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/)
