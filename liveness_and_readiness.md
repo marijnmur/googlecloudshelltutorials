@@ -20,16 +20,16 @@ liveness and readiness probes. Let's take a better look at these two features.
 ## Liveness
 
 Liveness refers to availability of an application running on a pod. The app
-should have a mechanism built-in to respond to the liveness probe in order to
-tell the kubelet it is still alive and kicking. If there is no liveness probe
-configured in the container configuration, Kubernetes will assume the pod is
-alive. So if it is necessary to be able to control when the container is
-considered alive, an appropriate mechanism needs to be implemented in the
-application running on the container. This need not be the Kubernetes liveness
-probe check. If the application running in the container has mechanisms build in
-for regulating failures and auto restart behavior, the liveness probe can be
-left for what it is. But in general it is good practice to use the build in
-liveness probe checks of Kubernetes.
+should have a mechanism built-in to respond to the liveness probe. The probe,
+when an positive response came back, will then tell the kubelet the pod is still
+alive and kicking. If there is no liveness probe configured in the container
+configuration, Kubernetes will assume the pod is alive. If it is necessary to be
+able to control when the container is considered alive, an appropriate mechanism
+needs to be implemented in the application running on the container. This need
+not be the Kubernetes liveness probe check. If the application running in the
+container has mechanisms build in for regulating failures and auto restart
+behavior, the liveness probe can be left for what it is. But in general it is
+good practice to use the build in liveness probe checks of Kubernetes.
 
 There are three different types of liveness checks:
 
@@ -48,14 +48,15 @@ is between 200 and 400 (400 not included). For a step by step guide have a look
 
 ### 3. TCP
 
-Here the kubelet will try to connect to a specified TCP port. If the connection
+Here the probe will try to connect to a specified TCP port. If the connection
 is successful the pod is healthy. If not it's unhealthy. For a step by step
 guide have a look [here](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-tcp-liveness-probe)
 
 ## Configuration settings
 
-There are a number of configuration variables that can be set for a probe from
-the Kubernetes [documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes):
+There are a number of configuration variables that can be set for a probe.
+The Kubernetes [documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes)
+defines the following:
 
 [Probes](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#probe-v1-core)
 have a number of fields that you can use to control more precisely the behavior
@@ -89,7 +90,7 @@ headers.
 - `port`: Name or number of the port to access on the container. Number must be
 in the range 1 to 65535.
 
- For an HTTP probe, the kubelet sends an HTTP request to the specified path and
+For an HTTP probe, the kubelet sends an HTTP request to the specified path and
 port to perform the check. The kubelet sends the probe to the pod's IP address,
 unless the address is overridden by the optional `host` field in `httpGet`. If
 `scheme` field is set to `HTTPS`, the kubelet sends an HTTPS request skipping
