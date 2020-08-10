@@ -1,7 +1,5 @@
 # Liveness and Readiness
 
-[![Open this project in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.png)](https://ssh.cloud.google.com/cloudshell/open?cloudshell_git_repo=https://github.com/marijnmur/googlecloudshelltutorials&cloudshell_tutorial=liveness_and_readiness.md)
-
 ## Introduction
 
 Kubernetes manages the restarting and moving of pods as it sees fit. In some
@@ -15,7 +13,9 @@ Because Kubernetes has so many interlinked processes that need to work together
 and need to know from each other if they are available, health checks for
 liveness and readiness are built-in features. The kubelet on the master node
 sends out probes to every registered pod and checks if it is still there via
-liveness and readiness probes. Let's take a better look at these two features.
+liveness and readiness probes.
+
+Let's take a better look at these two features.
 
 ## Liveness
 

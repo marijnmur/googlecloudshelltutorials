@@ -12,6 +12,6 @@ spec:
         cpu: "200m"
       limits:
         memory: "200Mi"
-        cpu: "200m"
+        cpu: "400m"
     command: ["stress"]
-    args: ["--vm", "1", "--vm-bytes", "250M", "--vm-hang", "1", "--cpu", "1"]
+    args: ["--vm", "1", "--vm-bytes", "250M", "--vm-hang", "1"]

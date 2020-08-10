@@ -1,17 +1,18 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: memory-demo
+  name: requests-limits-demo
 spec:
   containers:
-  - name: memory-demo-ctr
+  - name: requests-limits-demo
     image: polinux/stress
     resources:
-      requests:
+    requests:
         memory: "150Mi"
         cpu: "200m"
       limits:
         memory: "200Mi"
-        cpu: "200m"
+        cpu: "400m"
     command: ["stress"]
-    args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1", "--cpu", "1"]
+    args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
+
